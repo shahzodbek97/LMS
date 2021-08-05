@@ -17,8 +17,6 @@ class CreateRoleTable extends Migration
             $table->increments('id');
             $table->integer('student_id')->unsigned();
             $table->integer('teacher_id')->unsigned();
-            $table->foreign('student_id')->references('id')->on('student')->onDelete('cascade');
-            $table->foreign('teacher_id')->references('id')->on('teacher')->onDelete('cascade');
             $table->enum('staff', ['admin', 'manager', 'director']);
             $table->timestamps();
         });
