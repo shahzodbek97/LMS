@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Group;
 use Illuminate\Http\Request;
 
 class GroupController extends Controller
@@ -13,7 +14,7 @@ class GroupController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Group::all());
     }
 
     /**
@@ -34,7 +35,10 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $group = new Group;
+        $group->number = '132';
+        $group->save();
+        return response()->json($group);
     }
 
     /**
@@ -56,7 +60,10 @@ class GroupController extends Controller
      */
     public function edit($id)
     {
-        //
+        $group = Group::find($id);
+        $group->number = $group->number . '2';
+        $group->update();
+        return response()->json($group);
     }
 
     /**
@@ -79,6 +86,7 @@ class GroupController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Group::where('id', $id)->delete();
+        return response()->json(['success'=>true]);
     }
 }

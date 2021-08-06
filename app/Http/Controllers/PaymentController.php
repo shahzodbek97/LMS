@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Payment;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller
@@ -13,7 +14,7 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Payment::all());
     }
 
     /**
@@ -34,7 +35,12 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $payme = new Payment;
+        $payme->cours_id = '11';
+        $payme->month = 'Yanvar';
+        $payme->amount = '500000';
+        $payme->save();
+        return response()->json($payme);
     }
 
     /**
@@ -56,7 +62,10 @@ class PaymentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $payme = Payment::find($id);
+        $payme->month = $payme->month . ', Mart';
+        $payme->update();
+        return response()->json($payme);
     }
 
     /**
@@ -79,6 +88,7 @@ class PaymentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Payment::where('id', $id)->delete();
+        return response()->json(['success'=>true]);
     }
 }

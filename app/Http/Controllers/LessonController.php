@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lesson;
 use Illuminate\Http\Request;
 
 class LessonController extends Controller
@@ -13,7 +14,7 @@ class LessonController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Lesson::all());
     }
 
     /**
@@ -34,7 +35,10 @@ class LessonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $lesson = new Lesson;
+        $lesson->name = 'Matematika';
+        $lesson->save();
+        return response()->json($lesson);
     }
 
     /**
@@ -56,7 +60,10 @@ class LessonController extends Controller
      */
     public function edit($id)
     {
-        //
+        $lesson = Lesson::find($id);
+        $lesson->name = $lesson->name . ', Fizika';
+        $lesson->update();
+        return response()->json($lesson);
     }
 
     /**
@@ -79,6 +86,7 @@ class LessonController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Lesson::where('id', $id)->delete();
+        return response()->json(['success'=>true]);
     }
 }

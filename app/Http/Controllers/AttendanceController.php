@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
@@ -13,7 +14,7 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Attendance::all());
     }
 
     /**
@@ -34,7 +35,12 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $attendance = new Attendance;
+        $attendance->cours_id = '55';
+        $attendance->group_id = '22';
+        $attendance->datatime = '2020-01-23';
+        $attendance->save();
+        return response()->json($attendance);
     }
 
     /**
@@ -56,7 +62,10 @@ class AttendanceController extends Controller
      */
     public function edit($id)
     {
-        //
+        $attendance = Attendance::find($id);
+        $attendance->group_id = $attendance->group_id . '2';
+        $attendance->update();
+        return response()->json($attendance);
     }
 
     /**
@@ -79,6 +88,7 @@ class AttendanceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Attendance::where('id', $id)->delete();
+        return response()->json(['success'=>true]);
     }
 }

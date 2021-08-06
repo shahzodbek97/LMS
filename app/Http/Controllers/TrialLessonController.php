@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TrialLesson;
 use Illuminate\Http\Request;
 
 class TrialLessonController extends Controller
@@ -13,7 +14,7 @@ class TrialLessonController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(TrialLesson::all());
     }
 
     /**
@@ -34,7 +35,11 @@ class TrialLessonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $trial = new TrialLesson;
+        $trial->name = 'Grafika';
+        $trial->data = '2021-08-10';
+        $trial->save();
+        return response()->json($trial);
     }
 
     /**
@@ -56,7 +61,10 @@ class TrialLessonController extends Controller
      */
     public function edit($id)
     {
-        //
+        $trial = TrialLesson::find($id);
+        $trial->name = $trial->name . ', Web';
+        $trial->update();
+        return response()->json($trial);
     }
 
     /**
@@ -79,6 +87,7 @@ class TrialLessonController extends Controller
      */
     public function destroy($id)
     {
-        //
+        TrialLesson::where('id', $id)->delete();
+        return response()->json(["O'chirildi"=>true]);
     }
 }

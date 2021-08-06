@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -13,7 +14,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Course::all());
     }
 
     /**
@@ -34,7 +35,11 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $course = new Course;
+        $course->name = 'Web dasturlash';
+        $course->amount = '300000';
+        $course->save();
+        return response()->json($course);
     }
 
     /**
@@ -56,7 +61,10 @@ class CourseController extends Controller
      */
     public function edit($id)
     {
-        //
+        $course = Course::find($id);
+        $course->name = $course->name . ', Python dasturlash';
+        $course->update();
+        return response()->json($course);
     }
 
     /**
@@ -79,6 +87,7 @@ class CourseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Course::where('id', $id)->delete();
+        return response()->json(['success'=>true]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use Illuminate\Http\Request;
 
 class AddressController extends Controller
@@ -13,7 +14,7 @@ class AddressController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Address::all());
     }
 
     /**
@@ -34,7 +35,12 @@ class AddressController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $address = new Address;
+        $address->region = 'Toshkent';
+        $address->street = 'Amir Temur';
+        $address->home_number = '18';
+        $address->save();
+        return response()->json($address);
     }
 
     /**
@@ -56,7 +62,10 @@ class AddressController extends Controller
      */
     public function edit($id)
     {
-        //
+        $address = Address::find($id);
+        $address->street = $address->street . " ko'chasi";
+        $address->update();
+        return response()->json($address);
     }
 
     /**
@@ -79,6 +88,7 @@ class AddressController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Address::where('id', $id)->delete();
+        return response()->json(["O'chirish"=>true]);
     }
 }

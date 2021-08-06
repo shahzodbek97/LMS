@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
@@ -13,7 +14,7 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Teacher::all());
     }
 
     /**
@@ -34,7 +35,11 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $teacher = new Teacher;
+        $teacher->full_name = 'Muhammad Ermatov';
+        $teacher->age = '24';
+        $teacher->save();
+        return response()->json($teacher);
     }
 
     /**
@@ -56,7 +61,10 @@ class TeacherController extends Controller
      */
     public function edit($id)
     {
-        //
+        $teacher = Teacher::find($id);
+        $teacher->full_name = $teacher->full_name . "Bahrom o'g'li";
+        $teacher->update();
+        return response()->json($teacher);
     }
 
     /**
@@ -79,6 +87,7 @@ class TeacherController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Teacher::where('id', $id)->delete();
+        return response()->json(["O'chirildi"=>true]);
     }
 }

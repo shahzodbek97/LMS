@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Room;
 use Illuminate\Http\Request;
 
 class RoomController extends Controller
@@ -13,7 +14,7 @@ class RoomController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Room::all());
     }
 
     /**
@@ -34,7 +35,10 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $room = new Room;
+        $room->number = '204';
+        $room->save();
+        return response()->json($room);
     }
 
     /**
@@ -56,7 +60,10 @@ class RoomController extends Controller
      */
     public function edit($id)
     {
-        //
+        $room = Room::find($id);
+        $room->number = $room->number . '1';
+        $room->update();
+        return response()->json($room);
     }
 
     /**
@@ -79,6 +86,7 @@ class RoomController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Room::where('id', $id)->delete();
+        return response()->json(["o'chirildi"=>true]);
     }
 }

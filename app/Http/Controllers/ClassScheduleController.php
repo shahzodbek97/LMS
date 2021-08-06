@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ClassSchedule;
 use Illuminate\Http\Request;
 
 class ClassScheduleController extends Controller
@@ -13,7 +14,7 @@ class ClassScheduleController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(ClassSchedule::all());
     }
 
     /**
@@ -34,7 +35,11 @@ class ClassScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $class = new ClassSchedule;
+        $class->teacher_id = '55';
+        $class->group_id = '12';
+        $class->save();
+        return response()->json($class);
     }
 
     /**
@@ -56,7 +61,10 @@ class ClassScheduleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $class = ClassSchedule::find($id);
+        $class->teacher_id = $class->teacher_id . '2';
+        $class->update();
+        return response()->json($class);
     }
 
     /**
@@ -79,6 +87,7 @@ class ClassScheduleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        ClassSchedule::where('id', $id)->delete();
+        return response()->json(['success'=>true]);
     }
 }

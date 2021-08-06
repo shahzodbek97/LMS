@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Leading;
 use Illuminate\Http\Request;
 
 class LeadingController extends Controller
@@ -13,7 +14,7 @@ class LeadingController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Leading::all());
     }
 
     /**
@@ -34,7 +35,11 @@ class LeadingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $lead = new Leading;
+        $lead->full_name = 'Murodjon Yoqubov';
+        $lead->age = '25';
+        $lead->save();
+        return response()->json($lead);
     }
 
     /**
@@ -56,7 +61,10 @@ class LeadingController extends Controller
      */
     public function edit($id)
     {
-        //
+        $lead = Leading::find($id);
+        $lead->full_name = $lead->full_name . " Anvar o'g'li";
+        $lead->update();
+        return response()->json($lead);
     }
 
     /**
@@ -79,6 +87,7 @@ class LeadingController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Leading::where('id', $id)->delete();
+        return response()->json(['success'=>true]);
     }
 }
